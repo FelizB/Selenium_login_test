@@ -1,19 +1,14 @@
 import pytest
-import pytest
 import time
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.edge.service import Service as EdgeService
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+
 
 class TestNegativeScenarios:
     @pytest.mark.login
     @pytest.mark.negative
-    @pytest.mark.negative
-
-    def test_negative_username(self):
+    def test_negative_username(self, driver):
         # Open page
-        driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()))
+
         driver.get("https://practicetestautomation.com/practice-test-login/")
 
         # Type username incorrectUser into Username field
@@ -30,16 +25,17 @@ class TestNegativeScenarios:
         time.sleep(2)
 
         # Verify error message is displayed
-        error_message_locator =  driver.find_element(By.ID, "error")
+        error_message_locator = driver.find_element(By.ID, "error")
         assert error_message_locator.is_displayed(), "Error is not displayed but it should be"
 
         # Verify error message text is Your username is invalid!
         error_message = error_message_locator.text
         assert error_message == "Your username is invalid!", "Error message is not expected"
 
-    def test_negative_password(self):
+    @pytest.mark.login
+    @pytest.mark.negative
+    def test_negative_password(self, driver):
         # Open page
-        driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()))
         driver.get("https://practicetestautomation.com/practice-test-login/")
 
         # Type username incorrectUser into Username field
@@ -56,7 +52,7 @@ class TestNegativeScenarios:
         time.sleep(2)
 
         # Verify error message is displayed
-        error_message_locator =  driver.find_element(By.ID, "error")
+        error_message_locator = driver.find_element(By.ID, "error")
         assert error_message_locator.is_displayed(), "Error is not displayed but it should be"
 
         # Verify error message text is Your password is invalid!
